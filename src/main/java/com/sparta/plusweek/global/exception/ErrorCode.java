@@ -8,7 +8,8 @@ import org.springframework.http.HttpStatus;
 @RequiredArgsConstructor
 public enum ErrorCode {
 
-    ;
+    LOGIN_FAILED(HttpStatus.BAD_REQUEST, "1000", "로그인에 실패했습니다."),
+    SIGNUP_FAILED(HttpStatus.BAD_REQUEST, "1001", "회원가입에 실패했습니다.");
 
     private final HttpStatus status;
     private final String code;
