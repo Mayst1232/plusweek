@@ -9,7 +9,10 @@ import org.springframework.http.HttpStatus;
 public enum ErrorCode {
 
     LOGIN_FAILED(HttpStatus.BAD_REQUEST, "1000", "로그인에 실패했습니다."),
-    SIGNUP_FAILED(HttpStatus.BAD_REQUEST, "1001", "회원가입에 실패했습니다.");
+    SIGNUP_FAILED(HttpStatus.BAD_REQUEST, "1001", "회원가입에 실패했습니다."),
+    PASSWORD_NICKNAME(HttpStatus.BAD_REQUEST, "1002", "비밀번호에 닉네임이 들어갈 수 없습니다."),
+    VALID_PASS_INCORRECT(HttpStatus.BAD_REQUEST, "1003", "비밀번호와 확인 비밀번호가 다릅니다."),
+    DUPLICATE_USERNAME(HttpStatus.BAD_REQUEST, "1004", "중복된 유저 이름 입니다.");
 
     private final HttpStatus status;
     private final String code;
