@@ -3,6 +3,7 @@ package com.sparta.plusweek.domain.comment.controller;
 import static com.sparta.plusweek.global.exception.ErrorCode.CREATE_COMMENT_FAIL;
 
 import com.sparta.plusweek.domain.comment.dto.request.CommentCreateRequestDto;
+import com.sparta.plusweek.domain.comment.dto.request.CommentModifyRequestDto;
 import com.sparta.plusweek.domain.comment.dto.response.CommentResponseDto;
 import com.sparta.plusweek.domain.comment.service.CommentService;
 import com.sparta.plusweek.global.dto.PageDTO;
@@ -17,6 +18,7 @@ import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -60,6 +62,20 @@ public class CommentController {
             .code("200")
             .message("댓글 페이징 조회")
             .data(responseDtoList)
+            .build());
+    }
+
+    @PatchMapping("/comment/{id}")
+    public ResponseEntity<?> modifyComment(@PathVariable Long id,
+        @RequestBody CommentModifyRequestDto requestDto,
+        @AuthenticationPrincipal UserDetailsImpl userDetails) {
+        CommentResponseDto responseDto = commentService.modifyComment(id, requestDto,
+            userDetails.getUser());
+
+        return ResponseEntity.ok(RootResponseDto.builder()
+            .code("200")
+            .message("댓글 수정 성공")
+            .data(responseDto)
             .build());
     }
 }
