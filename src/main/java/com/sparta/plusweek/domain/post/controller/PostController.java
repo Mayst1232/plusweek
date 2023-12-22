@@ -5,6 +5,7 @@ import static com.sparta.plusweek.global.exception.ErrorCode.CREATE_POST_FAIL;
 import com.sparta.plusweek.domain.post.dto.request.PostRequestDto;
 import com.sparta.plusweek.domain.post.dto.response.PostResponseDto;
 import com.sparta.plusweek.domain.post.service.PostService;
+import com.sparta.plusweek.global.dto.PageDTO;
 import com.sparta.plusweek.global.dto.response.RootResponseDto;
 import com.sparta.plusweek.global.exception.ServiceException;
 import com.sparta.plusweek.global.security.UserDetailsImpl;
@@ -16,6 +17,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -49,5 +51,13 @@ public class PostController {
             .build());
     }
 
-
+    @GetMapping("/post")
+    public ResponseEntity<?> getAllPosts(@RequestBody PageDTO pageDTO) {
+        List<PostResponseDto> response = postService.getAllPosts(pageDTO.toPageable());
+        return ResponseEntity.ok(RootResponseDto.builder()
+            .code("200")
+            .message("모든 게시물을 조회합니다.")
+            .data(response)
+            .build());
+    }
 }
