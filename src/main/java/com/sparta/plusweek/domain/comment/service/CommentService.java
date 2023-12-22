@@ -1,8 +1,10 @@
 package com.sparta.plusweek.domain.comment.service;
 
 import static com.sparta.plusweek.global.exception.ErrorCode.NOT_EXIST_POST;
+import static com.sparta.plusweek.global.exception.ErrorCode.NOT_YOUR_COMMENT;
 
 import com.sparta.plusweek.domain.comment.domain.Comment;
+import com.sparta.plusweek.domain.comment.dto.request.CommentModifyRequestDto;
 import com.sparta.plusweek.domain.comment.dto.response.CommentResponseDto;
 import com.sparta.plusweek.domain.comment.repository.CommentRepository;
 import com.sparta.plusweek.domain.post.domain.Post;
@@ -14,6 +16,7 @@ import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @RequiredArgsConstructor
@@ -59,5 +62,22 @@ public class CommentService {
         }
 
         return responseDtoList;
+    }
+
+    @Transactional
+    public CommentResponseDto modifyComment(Long id, CommentModifyRequestDto requestDto,
+        User user) {
+        Comment comment = commentRepository.findByIdAndUser_id(id, user.getId()).orElseThrow(
+            () -> new ServiceException(NOT_YOUR_COMMENT)
+        );
+
+        comment.update(requestDto);
+
+        return CommentResponseDto.builder()
+            .nickname(comment.getUser().getNickname())
+            .content(comment.getContent())
+            .createdAt(comment.getCreatedAt())
+            .modifiedAt(comment.getModifiedAt())
+            .build();
     }
 }
