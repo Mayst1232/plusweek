@@ -87,4 +87,12 @@ public class PostService {
             .build();
     }
 
+
+    public void deletePost(Long id, User user) {
+        Post post = postRepository.findByIdAndUser_Id(id, user.getId()).orElseThrow(
+            () -> new ServiceException(NOT_YOUR_POST)
+        );
+
+        postRepository.delete(post);
+    }
 }
