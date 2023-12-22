@@ -18,6 +18,7 @@ import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -68,6 +69,20 @@ public class PostController {
         return ResponseEntity.ok(RootResponseDto.builder()
             .code("200")
             .message(id + "번의 게시물을 조회합니다.")
+            .data(responseDto)
+            .build());
+    }
+
+
+    @PatchMapping("/post/{id}")
+    public ResponseEntity<?> modifyPost(@PathVariable Long id,
+        @RequestBody PostRequestDto requestDto,
+        @AuthenticationPrincipal UserDetailsImpl userDetails) {
+        PostResponseDto responseDto = postService.modifyPost(id, requestDto, userDetails.getUser());
+
+        return ResponseEntity.ok(RootResponseDto.builder()
+            .code("200")
+            .message("게시물 수정 성공")
             .data(responseDto)
             .build());
     }
