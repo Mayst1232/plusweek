@@ -2,9 +2,10 @@ package com.sparta.plusweek.domain.comment.controller;
 
 import static com.sparta.plusweek.global.exception.ErrorCode.CREATE_COMMENT_FAIL;
 
-import com.sparta.plusweek.domain.comment.dto.request.CommentRequestDto;
+import com.sparta.plusweek.domain.comment.dto.request.CommentCreateRequestDto;
 import com.sparta.plusweek.domain.comment.dto.response.CommentResponseDto;
 import com.sparta.plusweek.domain.comment.service.CommentService;
+import com.sparta.plusweek.global.dto.PageDTO;
 import com.sparta.plusweek.global.dto.response.RootResponseDto;
 import com.sparta.plusweek.global.exception.ServiceException;
 import com.sparta.plusweek.global.security.UserDetailsImpl;
@@ -15,6 +16,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -28,7 +31,7 @@ public class CommentController {
     private final CommentService commentService;
 
     @PostMapping("/comment")
-    public ResponseEntity<?> createComment(@RequestBody @Valid CommentRequestDto requestDto,
+    public ResponseEntity<?> createComment(@RequestBody @Valid CommentCreateRequestDto requestDto,
         BindingResult bindingResult,
         @AuthenticationPrincipal UserDetailsImpl userDetails) {
 
@@ -44,6 +47,19 @@ public class CommentController {
             .code("200")
             .message("댓글 작성 성공")
             .data(responseDto)
+            .build());
+    }
+
+    @GetMapping("/comment/post/{id}")
+    public ResponseEntity<?> getAllComments(@RequestBody PageDTO pageDTO,
+        @PathVariable Long id) {
+        List<CommentResponseDto> responseDtoList = commentService.getAllComments(id,
+            pageDTO.toPageable());
+
+        return ResponseEntity.ok(RootResponseDto.builder()
+            .code("200")
+            .message("댓글 페이징 조회")
+            .data(responseDtoList)
             .build());
     }
 }
