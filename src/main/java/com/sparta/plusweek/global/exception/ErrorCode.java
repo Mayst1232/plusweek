@@ -16,7 +16,10 @@ public enum ErrorCode {
 
     CREATE_POST_FAIL(HttpStatus.BAD_REQUEST, "2000", "게시글 작성에 실패했습니다."),
     NOT_EXIST_POST(HttpStatus.BAD_REQUEST, "2001", "해당 ID의 게시글이 존재하지 않습니다."),
-    NOT_YOUR_POST(HttpStatus.BAD_REQUEST, "2002", "자신의 게시글만 수정 / 삭제가 가능합니다.");
+    NOT_YOUR_POST(HttpStatus.BAD_REQUEST, "2002", "자신의 게시글만 수정 / 삭제가 가능합니다."),
+
+    CREATE_COMMENT_FAIL(HttpStatus.BAD_REQUEST, "3000", "댓글 작성에 실패했습니다."),
+    NOT_YOUR_COMMENT(HttpStatus.BAD_REQUEST, "3001", "자신의 댓글만 수정 / 삭제가 가능합니다.");
 
     private final HttpStatus status;
     private final String code;
