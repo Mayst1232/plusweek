@@ -4,7 +4,7 @@ import static com.sparta.plusweek.global.exception.ErrorCode.NOT_EXIST_POST;
 import static com.sparta.plusweek.global.exception.ErrorCode.NOT_YOUR_POST;
 
 import com.sparta.plusweek.domain.post.domain.Post;
-import com.sparta.plusweek.domain.post.dto.request.PostRequestDto;
+import com.sparta.plusweek.domain.post.dto.request.PostCreateRequestDto;
 import com.sparta.plusweek.domain.post.dto.response.PostResponseDto;
 import com.sparta.plusweek.domain.post.repository.PostRepository;
 import com.sparta.plusweek.domain.user.domain.User;
@@ -22,7 +22,7 @@ public class PostService {
 
     private final PostRepository postRepository;
 
-    public PostResponseDto createPost(PostRequestDto requestDto, User user) {
+    public PostResponseDto createPost(PostCreateRequestDto requestDto, User user) {
         Post post = Post.builder().title(requestDto.title())
             .content(requestDto.content())
             .user(user).build();
@@ -71,7 +71,7 @@ public class PostService {
 
 
     @Transactional
-    public PostResponseDto modifyPost(Long id, PostRequestDto requestDto, User user) {
+    public PostResponseDto modifyPost(Long id, PostCreateRequestDto requestDto, User user) {
         Post post = postRepository.findByIdAndUser_Id(id, user.getId()).orElseThrow(
             () -> new ServiceException(NOT_YOUR_POST)
         );

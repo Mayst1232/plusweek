@@ -5,7 +5,7 @@ import jakarta.validation.constraints.Size;
 import lombok.Builder;
 
 @Builder
-public record PostRequestDto(
+public record PostCreateRequestDto(
     @NotBlank
     @Size(max = 500)
     String title,

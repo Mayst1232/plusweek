@@ -2,7 +2,7 @@ package com.sparta.plusweek.domain.post.controller;
 
 import static com.sparta.plusweek.global.exception.ErrorCode.CREATE_POST_FAIL;
 
-import com.sparta.plusweek.domain.post.dto.request.PostRequestDto;
+import com.sparta.plusweek.domain.post.dto.request.PostCreateRequestDto;
 import com.sparta.plusweek.domain.post.dto.response.PostResponseDto;
 import com.sparta.plusweek.domain.post.service.PostService;
 import com.sparta.plusweek.global.dto.PageDTO;
@@ -35,7 +35,7 @@ public class PostController {
     private final PostService postService;
 
     @PostMapping("/post")
-    public ResponseEntity<?> createPost(@RequestBody @Valid PostRequestDto requestDto,
+    public ResponseEntity<?> createPost(@RequestBody @Valid PostCreateRequestDto requestDto,
         BindingResult bindingResult,
         @AuthenticationPrincipal UserDetailsImpl userDetails) {
         List<FieldError> fieldErrors = bindingResult.getFieldErrors();
@@ -77,7 +77,7 @@ public class PostController {
 
     @PatchMapping("/post/{id}")
     public ResponseEntity<?> modifyPost(@PathVariable Long id,
-        @RequestBody PostRequestDto requestDto,
+        @RequestBody PostCreateRequestDto requestDto,
         @AuthenticationPrincipal UserDetailsImpl userDetails) {
         PostResponseDto responseDto = postService.modifyPost(id, requestDto, userDetails.getUser());
 

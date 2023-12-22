@@ -2,7 +2,7 @@ package com.sparta.plusweek.domain.post.domain;
 
 import com.sparta.plusweek.domain.comment.domain.Comment;
 import com.sparta.plusweek.domain.model.BaseEntity;
-import com.sparta.plusweek.domain.post.dto.request.PostRequestDto;
+import com.sparta.plusweek.domain.post.dto.request.PostCreateRequestDto;
 import com.sparta.plusweek.domain.user.domain.User;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
@@ -45,7 +45,7 @@ public class Post extends BaseEntity {
         this.user = user;
     }
 
-    public void update(PostRequestDto requestDto) {
+    public void update(PostCreateRequestDto requestDto) {
         if (requestDto.content() != null && requestDto.title() != null) {
             this.title = requestDto.title();
             this.content = requestDto.content();
