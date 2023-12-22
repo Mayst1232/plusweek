@@ -17,6 +17,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -76,6 +77,17 @@ public class CommentController {
             .code("200")
             .message("댓글 수정 성공")
             .data(responseDto)
+            .build());
+    }
+
+    @DeleteMapping("/comment/{id}")
+    public ResponseEntity<?> deleteComment(@PathVariable Long id,
+        @AuthenticationPrincipal UserDetailsImpl userDetails) {
+        commentService.deleteComment(id, userDetails.getUser());
+
+        return ResponseEntity.ok(RootResponseDto.builder()
+            .code("200")
+            .message("댓글 삭제 성공")
             .build());
     }
 }
