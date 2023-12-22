@@ -1,6 +1,7 @@
 package com.sparta.plusweek.domain.post.service;
 
 import static com.sparta.plusweek.global.exception.ErrorCode.NOT_EXIST_POST;
+import static com.sparta.plusweek.global.exception.ErrorCode.NOT_YOUR_POST;
 
 import com.sparta.plusweek.domain.post.domain.Post;
 import com.sparta.plusweek.domain.post.dto.request.PostRequestDto;
@@ -13,6 +14,7 @@ import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @RequiredArgsConstructor
@@ -57,6 +59,24 @@ public class PostService {
         Post post = postRepository.findById(id).orElseThrow(
             () -> new ServiceException(NOT_EXIST_POST)
         );
+
+        return PostResponseDto.builder()
+            .title(post.getTitle())
+            .content(post.getContent())
+            .nickname(post.getUser().getNickname())
+            .createdAt(post.getCreatedAt())
+            .modifiedAt(post.getModifiedAt())
+            .build();
+    }
+
+
+    @Transactional
+    public PostResponseDto modifyPost(Long id, PostRequestDto requestDto, User user) {
+        Post post = postRepository.findByIdAndUser_Id(id, user.getId()).orElseThrow(
+            () -> new ServiceException(NOT_YOUR_POST)
+        );
+
+        post.update(requestDto);
 
         return PostResponseDto.builder()
             .title(post.getTitle())
