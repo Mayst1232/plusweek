@@ -1,5 +1,6 @@
 package com.sparta.plusweek.domain.comment.domain;
 
+import com.sparta.plusweek.domain.comment.dto.request.CommentModifyRequestDto;
 import com.sparta.plusweek.domain.model.BaseEntity;
 import com.sparta.plusweek.domain.post.domain.Post;
 import com.sparta.plusweek.domain.user.domain.User;
@@ -36,5 +37,9 @@ public class Comment extends BaseEntity {
         this.content = content;
         this.user = user;
         this.post = post;
+    }
+
+    public void update(CommentModifyRequestDto requestDto) {
+        this.content = requestDto.content();
     }
 }
