@@ -43,6 +43,7 @@ public class CommentController {
         return ResponseEntity.ok(RootResponseDto.builder()
             .code("200")
             .message("댓글 작성 성공")
-            .data(responseDto));
+            .data(responseDto)
+            .build());
     }
 }
