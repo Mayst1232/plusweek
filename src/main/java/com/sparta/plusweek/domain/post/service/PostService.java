@@ -5,7 +5,10 @@ import com.sparta.plusweek.domain.post.dto.request.PostRequestDto;
 import com.sparta.plusweek.domain.post.dto.response.PostResponseDto;
 import com.sparta.plusweek.domain.post.repository.PostRepository;
 import com.sparta.plusweek.domain.user.domain.User;
+import java.util.ArrayList;
+import java.util.List;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -28,6 +31,22 @@ public class PostService {
             .createdAt(savePost.getCreatedAt())
             .modifiedAt(savePost.getModifiedAt())
             .build();
+    }
+
+    public List<PostResponseDto> getAllPosts(Pageable pageable) {
+        List<Post> postPage = postRepository.findAllBy(pageable);
+        List<PostResponseDto> responseDtoList = new ArrayList<>();
+        for (Post post : postPage) {
+            PostResponseDto responseDto = PostResponseDto.builder().title(post.getTitle())
+                .content(post.getContent())
+                .nickname(post.getUser().getNickname())
+                .createdAt(post.getCreatedAt())
+                .modifiedAt(post.getModifiedAt())
+                .build();
+            responseDtoList.add(responseDto);
+        }
+
+        return responseDtoList;
     }
 
 }
