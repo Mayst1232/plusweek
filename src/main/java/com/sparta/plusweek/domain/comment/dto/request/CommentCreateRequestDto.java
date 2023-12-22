@@ -6,7 +6,7 @@ import jakarta.validation.constraints.Size;
 import lombok.Builder;
 
 @Builder
-public record CommentRequestDto(
+public record CommentCreateRequestDto(
 
     @NotNull
     Long postId,
