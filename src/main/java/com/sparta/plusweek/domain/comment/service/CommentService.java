@@ -80,4 +80,12 @@ public class CommentService {
             .modifiedAt(comment.getModifiedAt())
             .build();
     }
+
+    public void deleteComment(Long id, User user) {
+        Comment comment = commentRepository.findByIdAndUser_id(id, user.getId()).orElseThrow(
+            () -> new ServiceException(NOT_YOUR_COMMENT)
+        );
+
+        commentRepository.delete(comment);
+    }
 }
