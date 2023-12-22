@@ -35,7 +35,6 @@ public class UserController {
             for (FieldError fieldError : bindingResult.getFieldErrors()) {
                 log.error(fieldError.getField() + " 필드 : " + fieldError.getDefaultMessage());
             }
-            String message = "필드가 비었습니다.";
             throw new ServiceException(SIGNUP_FAILED);
         }
 
